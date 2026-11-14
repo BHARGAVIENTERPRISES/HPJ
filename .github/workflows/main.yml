@@ -1,0 +1,39 @@
+name: Build HPJ Inventory Portable EXE
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Configure MSVC x64 environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Build portable application
+        shell: cmd
+        working-directory: HPJ_Portable_BuildKit
+        run: Build-Windows.bat < nul
+
+      - name: Package portable folder
+        shell: pwsh
+        run: |
+          Compress-Archive -Path 'HPJ_Portable_BuildKit/output/*' -DestinationPath 'HPJ_Inventory_Portable_Windows.zip' -Force
+
+      - name: Upload Windows portable app
+        uses: actions/upload-artifact@v4
+        with:
+          name: HPJ-Inventory-Portable-Windows
+          path: HPJ_Inventory_Portable_Windows.zip
+          if-no-files-found: error
+          retention-days: 14
