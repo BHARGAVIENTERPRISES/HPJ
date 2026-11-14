@@ -1,0 +1,31 @@
+{
+  "name": "hyd-inventory-erp",
+  "version": "1.0.0",
+  "description": "SRIRAM GEMS & JEWELLERY - Portable Inventory & Accounting ERP",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win portable"
+  },
+  "build": {
+    "appId": "com.sriramgems.hydinventory",
+    "productName": "HYD_Inventory",
+    "win": {
+      "target": "portable",
+      "icon": "app_icon.ico"
+    },
+    "portable": {
+      "artifactName": "HYD_Inventory_Portable.exe"
+    },
+    "files": [
+      "main.js",
+      "HYD.141126.html",
+      "app_icon.ico",
+      "package.json"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^32.0.0",
+    "electron-builder": "^25.0.0"
+  }
+}
